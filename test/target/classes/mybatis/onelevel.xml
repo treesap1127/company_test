@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="basic">
+	<select id="list" resultType="One">
+		select *
+		from one
+		<include refid="search"></include>
+	</select>
+	<select id="filenum" resultType="Integer">
+		select max(code)
+		from one
+	</select>
+	<select id="item" resultType="One">
+		select *
+		from one
+		where code=#{code}
+	</select>
+	<insert id="add">
+		insert into one
+		values (null,#{info},#{name})
+	</insert>
+	<insert id="fileadd">
+		insert into onefile
+		values (null,#{data.code},#{filedata.filename},#{filedata.UUID})
+	</insert>
+	<delete id="delete">
+		delete from one
+		where code=#{code}
+	</delete>
+	<delete id="deletefile">
+		delete from onefile
+		where code=#{code}
+	</delete>
+	<update id="update">
+		update one 
+		set info=#{info}, name=#{name}
+		where code=#{code}
+	</update>
+	<sql id="search">		
+		<where>
+			<if test="search==1">
+				one.code LIKE CONCAT(CONCAT('%',#{keyword}),'%')
+			</if>
+			<if test="search==2">
+				one.name LIKE CONCAT(CONCAT('%',#{keyword}),'%')
+			</if>			
+			<if test="search==3">
+				one.info LIKE CONCAT(CONCAT('%',#{keyword}),'%')
+			</if>
+		</where>
+	</sql>
+	
+</mapper>
