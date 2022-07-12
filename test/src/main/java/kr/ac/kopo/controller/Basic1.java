@@ -13,10 +13,10 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -145,17 +145,19 @@ public class Basic1 {
 		return "redirect:../list";
 	}
 	@GetMapping("/excelDownload1/{filecode}")
-	public String down(HttpServletResponse response,@PathVariable int filecode) throws Exception {
-		OneFile list = service.onefile_fliecode(filecode);
-		String filename=list.getFilename();
+	public void down(HttpServletResponse response,@PathVariable int filecode) throws Exception {
+		OneFile list = service.onefile_fliecode(filecode);// 파일 코드로 파일에 대한 정보 불러오기
+		String filename=list.getFilename();	////파일 이름
+		
 		try {
 			String path = "C:\\excel\\"+list.getUUID()+"_"+filename; // 경로에 접근할 때 역슬래시('\') 사용
 	        
-	        response.setHeader("Content-Disposition", "attachment;filename=" +URLEncoder.encode(list.getFilename(), StandardCharsets.UTF_8)); 
+	        response.setHeader("Content-Disposition", "attachment;filename=" +URLEncoder.encode(filename, StandardCharsets.UTF_8));
+	        					//파일 이름 설정
 	        @SuppressWarnings("resource")
             FileInputStream fileInputStream = new FileInputStream(path);
-              // FileInputStream = 파일 연결과 전송 시켜주는것
-              OutputStream out = response.getOutputStream();   //다운로드 시켜주는거
+              // FileInputStream = 파일을 바이트 단위로 읽어줌
+              OutputStream out = response.getOutputStream();   //파일을 바이트 단위로 다운로드 시킴
               
               int read = 0;
                    byte[] buffer = new byte[1024];
@@ -166,32 +168,32 @@ public class Basic1 {
            } catch (Exception e) {
                throw new Exception("download error");
        }
-		return "redirect:list";
 	}
 	@GetMapping("/excelDownload2/{filecode}")
 	public String exceldown(HttpServletResponse response,@PathVariable int filecode) throws IOException {
-		Workbook workbook = new HSSFWorkbook();
-        Sheet sheet = workbook.createSheet("게시판");
+		Workbook workbook = new XSSFWorkbook();
+			//엑셀 파일을 생성 --> 2007년도 껄로 가장 빠르다함.
+        Sheet sheet = workbook.createSheet("게시판");// 1차 시트 생성
         int rowNo = 0;
  
-        Row headerRow = sheet.createRow(rowNo++);
+        Row headerRow = sheet.createRow(rowNo++);// 첫 header 생성
         headerRow.createCell(0).setCellValue("이름");
         headerRow.createCell(1).setCellValue("전화번호");
         headerRow.createCell(2).setCellValue("주소");
  
-        List<OneExcel> list = service.excelfind(filecode);
-        for (OneExcel board : list) {
-            Row row = sheet.createRow(rowNo++);
+        List<OneExcel> list = service.excelfind(filecode);//엑셀 파일내용 불러오기
+        for (OneExcel board : list) {		//파일 내용 board에 담아서 내용 수 만큼 반복
+            Row row = sheet.createRow(rowNo++);		//시트한줄 생성.. rowNo-> 행 수
             row.createCell(0).setCellValue(board.getName());
             row.createCell(1).setCellValue(board.getTel());
             row.createCell(2).setCellValue(board.getAddress());
         }
  
-        response.setContentType("ms-vnd/excel");
-        response.setHeader("Content-Disposition", "attachment;filename=boardlist.xls");
+        response.setContentType("ms-vnd/excel");//엑셀파일을 처리할 콘텐츠 타입 ************content-type이란 간단히 말해 보내는 자원의 형식을 명시하기 위해 헤더에 실리는 정보
+        response.setHeader("Content-Disposition", "attachment;filename=list.xls");// 파일명
  
-        workbook.write(response.getOutputStream());
-        workbook.close();
+        workbook.write(response.getOutputStream());// 응답으로 다운로드 시키는 문장
+        workbook.close();//workbook 마무리
 		return "redirect:.";
 	}
 }
