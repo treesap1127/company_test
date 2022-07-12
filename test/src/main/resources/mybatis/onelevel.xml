@@ -11,6 +11,30 @@
 		select max(code)
 		from one
 	</select>
+	<select id="filecode" resultType="Integer">
+		select max(filecode)
+		from onefile
+	</select>
+	<select id="filecodefind" resultType="Integer">
+		select filecode
+		from onefile
+		where code=#{code}
+	</select>
+	<select id="file" resultType="OneFile">
+		select *
+		from onefile
+		where code=#{code}
+	</select>
+	<select id="onefileFliecode" resultType="OneFile">
+		select *
+		from onefile
+		where filecode=#{filecode}
+	</select>
+	<select id="excelfind" resultType="OneExcel">
+		select *
+		from one_excel
+		where filecode=#{filecode}
+	</select>
 	<select id="item" resultType="One">
 		select *
 		from one
@@ -24,6 +48,10 @@
 		insert into onefile
 		values (null,#{data.code},#{filedata.filename},#{filedata.UUID})
 	</insert>
+	<insert id="fileinsert">
+		insert into one_excel
+		values (#{filecode},#{row},#{name},#{tel},#{address});
+	</insert>
 	<delete id="delete">
 		delete from one
 		where code=#{code}
@@ -31,6 +59,10 @@
 	<delete id="deletefile">
 		delete from onefile
 		where code=#{code}
+	</delete>
+	<delete id="deleteexcel">
+		delete from one_excel
+		where filecode=#{filecode}
 	</delete>
 	<update id="update">
 		update one 

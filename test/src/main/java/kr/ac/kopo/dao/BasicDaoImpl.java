@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import kr.ac.kopo.model.One;
+import kr.ac.kopo.model.OneExcel;
 import kr.ac.kopo.model.OneFile;
 import kr.ac.kopo.util.Pager;
 @Repository
@@ -22,7 +23,6 @@ public class BasicDaoImpl implements BasicDao {
 	@Override
 	public void add(One data) {
 		sql.insert("basic.add", data);
-
 	}
 
 	@Override
@@ -37,6 +37,10 @@ public class BasicDaoImpl implements BasicDao {
 	@Override
 	public void deletefile(int code) {
 		sql.delete("basic.deletefile", code);
+	}
+	@Override
+	public void deleteexcel(int filecode) {
+		sql.delete("basic.deleteexcel", filecode);
 	}
 	@Override
 	public void update(One data) {
@@ -54,6 +58,34 @@ public class BasicDaoImpl implements BasicDao {
 	@Override
 	public int fileitem() {
 		return sql.selectOne("basic.filenum");
+	}
+	
+	@Override
+	public int filecode() {
+		return sql.selectOne("basic.filecode");
+	}
+	@Override
+	public int filecodefind(int code) {
+		return sql.selectOne("basic.filecodefind",code);
+	}
+	@Override
+	public OneFile file(int code) {
+		return sql.selectOne("basic.file",code);
+	}
+
+	@Override
+	public void insertfile(OneExcel oneUser) {
+		sql.insert("basic.fileinsert", oneUser);
+	}
+
+	@Override
+	public List<OneExcel> excelfind(int filecode) {
+		return sql.selectList("basic.excelfind", filecode);
+	}
+
+	@Override
+	public OneFile onefile_fliecode(int filecode) {
+		return sql.selectOne("basic.onefileFliecode", filecode);
 	}
 
 }

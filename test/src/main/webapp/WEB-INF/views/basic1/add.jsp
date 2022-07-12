@@ -15,6 +15,13 @@
 }
 </style>
 <script src="../js/add.js"></script>
+<script>
+$(function(){
+	if(${fileError}){
+		alert("엑셀파일을 등록해주세요");
+	}
+})
+</script>
 </head>
 <body style="text-align: center;">
 	  <div class="inner_case" style="padding-bottom: 10rem;">
@@ -28,7 +35,7 @@
 				<label>내용</label>
 				<input type="text" name="info" class="form-control">
 			</div>
-			<div class="add" >
+			<div class="add">
 			<button type="button"class="addfile">추가</button>
 			<input type="file" name="files">
 			</div>

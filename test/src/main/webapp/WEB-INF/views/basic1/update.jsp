@@ -30,7 +30,7 @@
 
 			<div class="add_button">
 				<button class="end_button">등록</button>
-				<a href="list" class="back_button">뒤로가기</a>
+				<a href="../list" class="back_button">뒤로가기</a>
 			</div>
 		</form>
 	</div>

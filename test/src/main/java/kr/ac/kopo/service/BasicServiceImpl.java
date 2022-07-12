@@ -2,12 +2,16 @@ package kr.ac.kopo.service;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import kr.ac.kopo.dao.BasicDao;
 import kr.ac.kopo.model.One;
+import kr.ac.kopo.model.OneExcel;
 import kr.ac.kopo.model.OneFile;
 import kr.ac.kopo.util.Pager;
 @Service
@@ -24,6 +28,7 @@ public class BasicServiceImpl implements BasicService {
 		dao.add(data);
 	}
 
+
 	@Override
 	public One item(int code) {
 		return dao.item(code);
@@ -32,6 +37,11 @@ public class BasicServiceImpl implements BasicService {
 	@Override
 	@Transactional
 	public void delete(int code) {
+		try {
+			dao.deleteexcel(dao.filecodefind(code));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		dao.deletefile(code);
 		dao.delete(code);
 	}
@@ -50,5 +60,32 @@ public class BasicServiceImpl implements BasicService {
 	public int fileitem() {
 		return dao.fileitem();
 	}
+	
+	@Override
+	public int filecode() {
+		return dao.filecode();
+	}
+
+	@Override
+	public OneFile file(int code) {
+		return dao.file(code);
+	}
+
+	@Override
+	public void insertfile(OneExcel oneUser) {
+		dao.insertfile(oneUser);
+	}
+
+	@Override
+	public List<OneExcel> excelfind(int filecode) {
+		return dao.excelfind(filecode);
+	}
+
+	@Override
+	public OneFile onefile_fliecode(int filecode) {
+		return dao.onefile_fliecode(filecode);
+	}
+
+
 
 }

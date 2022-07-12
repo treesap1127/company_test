@@ -1,16 +1,10 @@
 package kr.ac.kopo.model;
 
 public class OneFile {
-	private int filecode;
 	private int code;
+	private int filecode;
 	private String filename;
 	private String UUID;
-	public int getFilecode() {
-		return filecode;
-	}
-	public void setFilecode(int filecode) {
-		this.filecode = filecode;
-	}
 	public int getCode() {
 		return code;
 	}
@@ -29,6 +23,10 @@ public class OneFile {
 	public void setUUID(String uUID) {
 		UUID = uUID;
 	}
-	
-	
+	public int getFilecode() {
+		return filecode;
+	}
+	public void setFilecode(int filecode) {
+		this.filecode = filecode;
+	}
 }

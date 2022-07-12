@@ -45,6 +45,7 @@
                             <td>${item.code}</td>
                             <td>${item.info}</td>
                             <td>${item.name}</td>
+                            <td><a href="view/${item.code}" class="btn btn-primary">파일 리스트 출력</a></td>
                             <td class="deleteUpdate"><a href="delete/${item.code}" class="btn btn-sm btn-danger">삭제</a> 
     												<a href="update/${item.code}" class="btn btn-sm btn-warning">변경</a></td>
                         </tr>
@@ -60,7 +61,7 @@
                 <tfoot class="table_foot">
                     <tr>
                         <td colspan="5">
-                        <div class="pagination justify-content-center" style >
+                        <div class="pagination justify-content-center">
 							          <div class="page-item" style="display: flex">
 							             <div class="page-item"><a href="?page=1" class="page-link button">처음</a></div>
                             			 <div class="page-item"><a href="?page=${pager.prev}" class="page-link button">이전</a></div> 

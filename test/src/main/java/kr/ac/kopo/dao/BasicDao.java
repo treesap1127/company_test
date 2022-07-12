@@ -3,6 +3,7 @@ package kr.ac.kopo.dao;
 import java.util.List;
 
 import kr.ac.kopo.model.One;
+import kr.ac.kopo.model.OneExcel;
 import kr.ac.kopo.model.OneFile;
 import kr.ac.kopo.util.Pager;
 
@@ -21,7 +22,21 @@ public interface BasicDao {
 	void fileadd(OneFile filedata, One data);
 
 	int fileitem();
+	
+	int filecode();
 
 	void deletefile(int code);
+
+	OneFile file(int code);
+
+	void insertfile(OneExcel oneUser);
+
+	int filecodefind(int code);
+
+	void deleteexcel(int filecodefind);
+
+	List<OneExcel> excelfind(int filecode);
+
+	OneFile onefile_fliecode(int filecode);
 
 }
