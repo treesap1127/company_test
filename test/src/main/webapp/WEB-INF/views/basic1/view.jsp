@@ -8,6 +8,7 @@
 <meta charset="UTF-8">
 </head>
 <body style="text-align: center;">
+		<c:forEach var="item" items="${item}">
 		<div>
 			글 번호 ${item.code} 파일명 ${item.filename}
 		</div>
@@ -24,24 +25,20 @@
                 </thead>
     
                 <tbody class="table_body">
-                    <c:forEach var="item" items="${ite}">
+                    <c:forEach var="list" items="${item.oneExcel}">
                         <tr>
-                            <td>${item.filecode}</td>
-                            <td>${item.row}</td>
-                            <td>${item.name}</td>
-                            <td>${item.tel}</td>
-                            <td>${item.address}</td>
+                            <td>${list.filecode}</td>
+                            <td>${list.row}</td>
+                            <td>${list.name}</td>
+                            <td>${list.tel}</td>
+                            <td>${list.address}</td>
                         </tr>
                     </c:forEach>
-                    <c:if test="${list.size() < 1||list==null}">
-                        <tr>
-                            <td colspan="5">등록 된 자료가 없습니다</td>
-                        </tr>
-                    </c:if>
                 </tbody>
             </table>
             <a href="/basic1/excelDownload1/${item.filecode}" class="btn btn-primary">서버에 있는 파일 다운로드</a>
             <a href="/basic1/excelDownload2/${item.filecode}" class="btn btn-primary">데이터베이스 파일 다운로드</a>
         </div>
+        </c:forEach>
 </body>
 </html>

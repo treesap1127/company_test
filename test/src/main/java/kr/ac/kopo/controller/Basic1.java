@@ -120,8 +120,8 @@ public class Basic1 {
 		return "redirect:list";
 	}
 	@GetMapping("/view/{code}")
-	public String view(@PathVariable int code, Model model,List<OneFile> onefile) {
-		onefile=service.file(code);
+	public String view(@PathVariable int code, Model model) {
+		List<OneFile> onefile=service.file(code);
 		
 		
 		model.addAttribute("item", onefile);

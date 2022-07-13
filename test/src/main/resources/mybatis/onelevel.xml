@@ -22,10 +22,10 @@
 	</select>
 <resultMap type="OneFile" id="ExcelMap">
 	<id column="filecode" property="filecode"/><!-- column=DB property=java-->
-	<result column="code" property="code"/>
+	<id column="code" property="code"/>
 	<result column="filename" property="filename"/>
 	<result column="UUID" property="UUID"/>
-	<collection column="filecode" property="OneExcel" ofType="OneExcel" javaType="OneExcel">
+	<collection column="filecode" property="oneExcel" ofType="OneExcel" javaType="ArrayList">
 		<id column="filecode" property="filecode"/>
 		<result column="row" property="row"/>
 		<result column="name" property="name"/>
