@@ -38,7 +38,11 @@
 		from onefile,one_excel
 		where onefile.filecode=one_excel.filecode and code=#{code}
 	</select>
-	
+	<select id="excelfile" resultType="OneExcel">
+		select *
+		from one_excel
+		where filecode=#{filecode}
+	</select>
 	
 	
 	<select id="onefileFliecode" resultType="OneFile">

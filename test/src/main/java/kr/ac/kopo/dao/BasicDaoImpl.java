@@ -1,5 +1,6 @@
 package kr.ac.kopo.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -65,14 +66,31 @@ public class BasicDaoImpl implements BasicDao {
 		return sql.selectOne("basic.filecode");
 	}
 	@Override
-	public int filecodefind(int code) {
-		return sql.selectOne("basic.filecodefind",code);
+	public List<Integer> filecodefind(int code) {
+		return sql.selectList("basic.filecodefind",code);
 	}
+//	@Override
+//	public List<OneFile> file(int code) {
+//		return sql.selectList("basic.file",code);
+//	}
+	
 	@Override
 	public List<OneFile> file(int code) {
+		List<OneFile> data=sql.selectList("basic.file",code);// 기본 리스트를 가져오고
 		
-		return sql.selectList("basic.file",code);
+		for(int i=0;i<data.size();i++) {
+			List<OneExcel> dataset=sql.selectList("basic.excelfile",data.get(i).getFilecode());//엑셀파일을 가져옴
+			OneFile dataplate=new OneFile();
+			dataplate.setCode(data.get(i).getCode());
+			dataplate.setFilecode(data.get(i).getFilecode());
+			dataplate.setFilename(data.get(i).getFilename());
+			dataplate.setUUID(data.get(i).getUUID());
+			dataplate.setOneExcel(dataset);
+			data.set(i, dataplate);
+		}
+		return data;
 	}
+
 
 	@Override
 	public void insertfile(OneExcel oneUser) {

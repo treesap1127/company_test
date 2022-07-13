@@ -12,6 +12,8 @@ import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -23,7 +25,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -54,9 +55,13 @@ public class Basic1 {
 		return "basic1/add";
 	}
 	@PostMapping("/add")
-	public String add(One data,@RequestParam("files") List<MultipartFile> files,RedirectAttributes ra) {
+	public String add(@Valid One data,@RequestParam("files") List<MultipartFile> files,RedirectAttributes ra,HttpSession session) {
 		final String uploadPath = "C:/excel/";
 		OneFile filedata=new OneFile();
+		if(data.getName().isEmpty()||data.getInfo().isEmpty()) {
+			ra.addFlashAttribute("fileError", true);
+			return "redirect:add";
+		}
 		service.add(data);
 		for(MultipartFile file:files) {
 			String filename = file.getOriginalFilename();

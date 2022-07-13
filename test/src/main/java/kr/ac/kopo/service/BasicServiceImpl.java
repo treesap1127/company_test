@@ -35,7 +35,9 @@ public class BasicServiceImpl implements BasicService {
 	@Transactional
 	public void delete(int code) {
 		try {
-			dao.deleteexcel(dao.filecodefind(code));
+			for(int i:dao.filecodefind(code)) {
+				dao.deleteexcel(i);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

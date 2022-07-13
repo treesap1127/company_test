@@ -18,9 +18,8 @@
 <script>
 $(function(){
 	if(${fileError}){
-		alert("엑셀파일을 등록해주세요");
+		alert("엑셀파일 및 값을 등록해주세요");
 	}
-	
 })
 </script>
 </head>

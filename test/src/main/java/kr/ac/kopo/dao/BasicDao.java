@@ -31,7 +31,7 @@ public interface BasicDao {
 
 	void insertfile(OneExcel oneUser);
 
-	int filecodefind(int code);
+	List<Integer> filecodefind(int code);
 
 	void deleteexcel(int filecodefind);
 
