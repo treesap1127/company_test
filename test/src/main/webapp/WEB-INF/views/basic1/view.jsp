@@ -24,7 +24,7 @@
                 </thead>
     
                 <tbody class="table_body">
-                    <c:forEach var="item" items="${list}">
+                    <c:forEach var="item" items="${ite}">
                         <tr>
                             <td>${item.filecode}</td>
                             <td>${item.row}</td>

@@ -27,7 +27,7 @@ public interface BasicDao {
 
 	void deletefile(int code);
 
-	OneFile file(int code);
+	List<OneFile> file(int code);
 
 	void insertfile(OneExcel oneUser);
 
@@ -38,5 +38,8 @@ public interface BasicDao {
 	List<OneExcel> excelfind(int filecode);
 
 	OneFile onefile_fliecode(int filecode);
+
+	List<Integer> filecount(int code);
+
 
 }

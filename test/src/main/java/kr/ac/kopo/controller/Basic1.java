@@ -23,6 +23,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -119,11 +120,19 @@ public class Basic1 {
 		return "redirect:list";
 	}
 	@GetMapping("/view/{code}")
-	public String view(@PathVariable int code, Model model,OneFile onefile) {
+	public String view(@PathVariable int code, Model model,List<OneFile> onefile) {
 		onefile=service.file(code);
+		
+		
 		model.addAttribute("item", onefile);
-		List<OneExcel> list =service.excelfind(onefile.getFilecode());
-		model.addAttribute("list", list);
+		
+		
+//		List<List<OneExcel>> list=new ArrayList<List<OneExcel>>();
+//		for(OneFile filecode:onefile) {
+//			list.add(service.excelfind(filecode.getFilecode()));
+//		}
+		
+//		model.addAttribute("list", list);
 		return "basic1/view";
 	}
 	@GetMapping("/update/{code}")

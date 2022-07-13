@@ -69,8 +69,8 @@ public class BasicDaoImpl implements BasicDao {
 		return sql.selectOne("basic.filecodefind",code);
 	}
 	@Override
-	public OneFile file(int code) {
-		return sql.selectOne("basic.file",code);
+	public List<OneFile> file(int code) {
+		return sql.selectList("basic.file",code);
 	}
 
 	@Override
@@ -86,6 +86,11 @@ public class BasicDaoImpl implements BasicDao {
 	@Override
 	public OneFile onefile_fliecode(int filecode) {
 		return sql.selectOne("basic.onefileFliecode", filecode);
+	}
+
+	@Override
+	public List<Integer> filecount(int code) {
+		return sql.selectList("basic.filecount", code);
 	}
 
 }

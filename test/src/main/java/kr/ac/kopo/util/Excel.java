@@ -28,21 +28,21 @@ public class Excel {
 	
 					int rowIndex = 0;
 					int columnIndex = 0;
-	
+
 					// 첫번째 행(0)은 컬럼 명이기 때문에 두번째 행(1) 부터 검색
 					for (rowIndex = startRowNum; rowIndex < sheet.getLastRowNum() + 1; rowIndex++) {
 						Row row = sheet.getRow(rowIndex);
-	
+
 						// 빈 행은 Skip
 						if (row.getCell(0) != null && !row.getCell(0).toString().isBlank()) {
-	
+
 							Map<Integer, Object> map = new HashMap<Integer, Object>();
-	
+
 							int cells = columnLength;
-	
+
 							for (columnIndex = 0; columnIndex <= cells; columnIndex++) {
 								Cell cell = row.getCell(columnIndex);
-								map.put(columnIndex, getCellValue(cell));//0이름 1번호 2주소 로 List에 담김
+								map.put(columnIndex, getCellValue(cell));//0이름 1번호 2주소 로 각 형변환 되서 List에 담김
 							}
 							excelList.add(map);
 						}

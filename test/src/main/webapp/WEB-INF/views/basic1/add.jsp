@@ -36,7 +36,7 @@ $(function(){
 				<input type="text" name="info" class="form-control">
 			</div>
 			<div class="add">
-<!-- 		<button type="button"class="addfile">추가</button> -->
+ 			<button type="button"class="addfile">추가</button> 
 			<input type="file" name="files">
 			</div>
 			<div class="add_button">

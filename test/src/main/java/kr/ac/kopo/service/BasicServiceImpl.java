@@ -2,9 +2,6 @@ package kr.ac.kopo.service;
 
 import java.util.List;
 
-import javax.validation.Valid;
-
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -67,7 +64,7 @@ public class BasicServiceImpl implements BasicService {
 	}
 
 	@Override
-	public OneFile file(int code) {
+	public List<OneFile> file(int code) {
 		return dao.file(code);
 	}
 
@@ -85,7 +82,5 @@ public class BasicServiceImpl implements BasicService {
 	public OneFile onefile_fliecode(int filecode) {
 		return dao.onefile_fliecode(filecode);
 	}
-
-
 
 }

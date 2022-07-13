@@ -20,11 +20,27 @@
 		from onefile
 		where code=#{code}
 	</select>
-	<select id="file" resultType="OneFile">
+<resultMap type="OneFile" id="ExcelMap">
+	<id column="filecode" property="filecode"/><!-- column=DB property=java-->
+	<result column="code" property="code"/>
+	<result column="filename" property="filename"/>
+	<result column="UUID" property="UUID"/>
+	<collection column="filecode" property="OneExcel" ofType="OneExcel" javaType="OneExcel">
+		<id column="filecode" property="filecode"/>
+		<result column="row" property="row"/>
+		<result column="name" property="name"/>
+		<result column="tel" property="tel"/>
+		<result column="address" property="address"/>
+	</collection>
+</resultMap>
+	<select id="file" resultMap="ExcelMap">
 		select *
-		from onefile
-		where code=#{code}
+		from onefile,one_excel
+		where onefile.filecode=one_excel.filecode and code=#{code}
 	</select>
+	
+	
+	
 	<select id="onefileFliecode" resultType="OneFile">
 		select *
 		from onefile
@@ -34,6 +50,11 @@
 		select *
 		from one_excel
 		where filecode=#{filecode}
+	</select>
+	<select id="filecount" resultType="Integer">
+		select filecode
+		from onefile
+		where code=#{code}
 	</select>
 	<select id="item" resultType="One">
 		select *

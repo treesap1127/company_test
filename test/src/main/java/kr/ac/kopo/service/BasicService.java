@@ -24,14 +24,12 @@ public interface BasicService {
 	
 	int filecode();
 
-	OneFile file(int code);
+	List<OneFile> file(int code);
 
 	void insertfile(OneExcel oneUser);
 
 	List<OneExcel> excelfind(int filecode);
 
 	OneFile onefile_fliecode(int filecode);
-
-
 
 }
