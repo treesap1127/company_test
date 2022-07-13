@@ -20,19 +20,19 @@
 		from onefile
 		where code=#{code}
 	</select>
-<resultMap type="OneFile" id="ExcelMap">
-	<id column="filecode" property="filecode"/><!-- column=DB property=java-->
-	<id column="code" property="code"/>
-	<result column="filename" property="filename"/>
-	<result column="UUID" property="UUID"/>
-	<collection column="filecode" property="oneExcel" ofType="OneExcel" javaType="ArrayList">
-		<id column="filecode" property="filecode"/>
-		<result column="row" property="row"/>
-		<result column="name" property="name"/>
-		<result column="tel" property="tel"/>
-		<result column="address" property="address"/>
-	</collection>
-</resultMap>
+	<resultMap type="OneFile" id="ExcelMap">
+		<id column="filecode" property="filecode"/><!-- column=DB property=java-->
+		<id column="code" property="code"/>
+		<result column="filename" property="filename"/>
+		<result column="UUID" property="UUID"/>
+		<collection column="filecode" property="oneExcel" ofType="OneExcel" javaType="ArrayList">
+			<id column="filecode" property="filecode"/>
+			<result column="row" property="row"/>
+			<result column="name" property="name"/>
+			<result column="tel" property="tel"/>
+			<result column="address" property="address"/>
+		</collection>
+	</resultMap>
 	<select id="file" resultMap="ExcelMap">
 		select *
 		from onefile,one_excel

@@ -123,7 +123,7 @@ public class Basic1 {
 	public String view(@PathVariable int code, Model model) {
 		List<OneFile> onefile=service.file(code);
 		
-		
+
 		model.addAttribute("item", onefile);
 		
 		

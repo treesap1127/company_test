@@ -70,6 +70,7 @@ public class BasicDaoImpl implements BasicDao {
 	}
 	@Override
 	public List<OneFile> file(int code) {
+		
 		return sql.selectList("basic.file",code);
 	}
 

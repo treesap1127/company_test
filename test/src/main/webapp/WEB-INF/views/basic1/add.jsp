@@ -20,6 +20,7 @@ $(function(){
 	if(${fileError}){
 		alert("엑셀파일을 등록해주세요");
 	}
+	
 })
 </script>
 </head>

@@ -1,8 +1,14 @@
 $(function(){
+	var count=0;
 	$(".addfile").click(function(){
+		count++;
+		if(count>2){
+			alert("3개까지의 엑셀만 등록 가능합니다.");
+			return;
+		}
+		console.log(count);
 		$(".add").append(`
 			<div>
-				<button type="button" class="deletefile">삭제</button>
 				<input type="file" name="files">
 			</div>
 			`);
@@ -10,6 +16,8 @@ $(function(){
 		$(".deletefile").click(function(){
 			$(this).parent().empty('div');
 			$(this).parent().remove('div');
+			count--;
+			console.log(count);
 		})
 	})
 })
