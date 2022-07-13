@@ -21,6 +21,7 @@ $(function(){
 		alert("엑셀파일 및 값을 등록해주세요");
 	}
 })
+
 </script>
 </head>
 <body style="text-align: center;">
@@ -37,7 +38,7 @@ $(function(){
 			</div>
 			<div class="add">
  			<button type="button"class="addfile">추가</button> 
-			<input type="file" name="files">
+			<input type="file" name="files" >
 			</div>
 			<div class="add_button">
 				<button class="end_button">등록</button>
