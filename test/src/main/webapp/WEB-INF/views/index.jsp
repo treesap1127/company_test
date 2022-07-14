@@ -14,5 +14,6 @@
  <h1>기초 CRUD</h1>
  <div><a href="basic1/list" class="btn btn-primary" style="margin:50px;padding:30px;font-size:20px;">테이블 접속</a></div>
 </div>
+<jsp:include page="include/body.jsp"></jsp:include>
 </body>
 </html>
