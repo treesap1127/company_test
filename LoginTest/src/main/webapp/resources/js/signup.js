@@ -23,19 +23,24 @@ function check_id_Async() {
 }
 function test() {
 	  var reg = /^[0-9]{3}-[0-9]{3,4}-[0-9]{4}/; //숫자만 입력하는 정규식
+		var regs = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|\*]{1,32}$/;//32자의 한굴/영문만 입력하는 정규식
 	  if (!reg.test(tel.value)) {
 	    alert("전화번호를 010-1234-1234 형식으로 입력해주세요");
-	    mobile.focus();
-	    return false;
+	    tel.focus();
 	  }
-		else if(!$("#check").attr('value')||!$("#name").val()){
-			alert("아이디 중복확인과 모든 사항을 입력해주세요");	
+	  	else if (!regs.test($("#name").val())) {        
+	  	alert("닉네임은 한글/영문 32자만 입력 가능합니다.");        
+	  	$("#name").focus();
+	  	}
+	  	//아이디 체크 및 다른 값들이 다 들어왔는지.
+		else if(!$("#check").attr('value')){
+			alert("아이디 중복확인을 부탁드립니다!");	
 		}
 		else{
 			signup_form.submit();
 		}
 }
-$(function(){
+$(function(){// 중복확인 시 아이디 변경하면 check빼기
 	 $('#id').change( function() {
 		$("#check").attr('value','');
 	});

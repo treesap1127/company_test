@@ -12,6 +12,6 @@ public interface MemberDao {
 
 	String findpasswd(User user);
 
-	boolean updatepass(User user);
+	User updatepass(User user);
 
 }

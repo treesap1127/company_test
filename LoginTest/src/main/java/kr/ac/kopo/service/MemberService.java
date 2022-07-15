@@ -12,6 +12,6 @@ public interface MemberService {
 
 	String findpasswd(User id);
 
-	boolean updatepass(User user);
+	User updatepass(User user);
 	
 }

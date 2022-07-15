@@ -5,16 +5,20 @@
 <html>
 <head>
 <jsp:include page="include/header.jsp"></jsp:include>
-<meta charset="UTF-8">
 <title>Insert title here</title>
 <script>
 	var pass=`${passwd}`;
 	var update=`${update}`;
+	var start=`${start}`;
 	if (pass!=0) {
 		alert("로그인을 해주세요\n임시 비밀번호:"+`${passwd}`);
 	}
 	if(update==1){
 		alert("시간이 오래 지나 세션이 만료되었습니다 \n 다시 로그인해주세요");
+	}
+	if(start==1){
+//		alert("첫 로그인을 축하드립니다."); //비밀번호 변경 후 세션을 지급 했을시!
+		alert("비밀번호 변경이 완료 되었습니다. \n 다시 로그인 해주세요");
 	}
 </script>
 </head>

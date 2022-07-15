@@ -30,7 +30,6 @@
 			<mapping path="/**"/>
 			<exclude-mapping path="/member/updatepass"/>
 			<beans:bean class="kr.ac.kopo.interceptor.LoginInterceptor"></beans:bean>
-			
 		</interceptor>
 	</interceptors>
 	
