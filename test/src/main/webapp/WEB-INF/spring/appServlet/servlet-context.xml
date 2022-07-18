@@ -27,6 +27,17 @@
 	
 	<context:component-scan base-package="kr.ac.kopo" />
 	
-	
+ 	<interceptors>
+		<interceptor>
+			<mapping path="/**"/>
+			<exclude-mapping path="/member/updatepass"/><!-- 안할시 계속 호출 -->
+			<beans:bean class="kr.ac.kopo.interceptor.LoginStartInterceptor"></beans:bean>
+		</interceptor>
+		<interceptor>
+			<mapping path="/basic1/**"/>
+			<exclude-mapping path="/basic1/list"/>
+			<beans:bean class="kr.ac.kopo.interceptor.LoginInterceptor"></beans:bean>
+		</interceptor>
+	</interceptors>
 	
 </beans:beans>

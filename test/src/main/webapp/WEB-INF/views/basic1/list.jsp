@@ -8,6 +8,7 @@
 <meta charset="UTF-8">
 </head>
 <body style="text-align: center;">
+<c:import url="/top_menu"></c:import>
 	   <div class="search" style="left: 50%;position: relative;transform: translateX(-50%);width: 400px;">
         <div class="inner_case">
                     <form class="row">
@@ -20,8 +21,8 @@
 	                              <option value="3" ${pager.search==3?'selected':''}>제목</option>
 	                         </select>
 	                     </div>
-	                     <div class="search_move_2"><input type="text" name="keyword" value="${pager.keyword eq 'null'?'':pager.keyword}" class="form-control control"></div>
-	                     <div class="search_move_3"><button class="btn btn-search">검색</button></div>
+	                     <div class="search_move_2"><input type="text" name="keyword" value="<c:out value="${pager.keyword eq 'null'?'':pager.keyword}"/>" class="form-control control"></div>
+	                     <div class="search_move_3"><button class="btn btn-dark">검색</button></div>
                     </div>
                     </form>
         </div>
@@ -45,9 +46,9 @@
                             <td>${item.code}</td>
                             <td>${item.info}</td>
                             <td>${item.name}</td>
-                            <td><a href="view/${item.code}" class="btn btn-primary">파일 리스트 출력</a></td>
-                            <td class="deleteUpdate"><a href="delete/${item.code}" class="btn btn-sm btn-danger">삭제</a> 
-    												<a href="update/${item.code}" class="btn btn-sm btn-warning">변경</a></td>
+                            <td><a href="/basic1/view/${item.code}" class="btn btn-primary">파일 리스트 출력</a></td>
+                            <td class="deleteUpdate"><a href="/basic1/delete/${item.code}" class="btn btn-sm btn-danger">삭제</a> 
+    												<a href="/basic1/update/${item.code}" class="btn btn-sm btn-warning">변경</a></td>
                         </tr>
                         <!-- 딜리트 버튼 누르면 바로 보내네  update누르면 update로 바로보냄-->
                     </c:forEach>
@@ -63,13 +64,13 @@
                         <td colspan="5">
                         <div class="pagination justify-content-center">
 							          <div class="page-item" style="display: flex">
-							             <div class="page-item"><a href="?page=1" class="page-link button">처음</a></div>
-                            			 <div class="page-item"><a href="?page=${pager.prev}" class="page-link button">이전</a></div> 
+							             <div class="page-item"><a href="/basic1/list?page=1${pager.query}" class="page-link button">처음</a></div>
+                            			 <div class="page-item"><a href="/basic1/list?page=${pager.prev}${pager.query}" class="page-link button">이전</a></div> 
 							             	<c:forEach var="page" items="${pager.list}">
-												<div class="page-item ${page == pager.page ? 'active':''}"><a href="?page=${page}" class="page-link button">${page}</a></div>
+												<div class="page-item ${page == pager.page ? 'active':''}"><a href="/basic1/list?page=${page}${pager.query}" class="page-link button">${page}</a></div>
 											</c:forEach>             
-			                            <div class="page-item"><a href="?page=${pager.next}" class="page-link button">다음</a></div>
-			                            <div class="page-item"><a href="?page=${pager.last}" class="page-link button">마지막</a>
+			                            <div class="page-item"><a href="/basic1/list?page=${pager.next}" class="page-link button">다음</a></div>
+			                            <div class="page-item"><a href="/basic1/list/?page=${pager.last}" class="page-link button">마지막</a>
 							          </div>
                         </div>
                         </td>
@@ -77,7 +78,12 @@
                     </tr>
                 </tfoot>
             </table>
-            <a href="add" class="btn btn-primary">등록</a>
+            <div>
+            <a href="/basic1/add" style="margin:20px" class="btn btn-primary">등록</a>
+            </div>
+            <div>
+            <a href="/" class="btn btn-primary">첫 페이지 이동</a>
+            </div>
         </div>
     </div>
 </body>

@@ -23,10 +23,10 @@
 </script>
 </head>
 <body>
-	<a href="/member/signup" style="font-size:40px;"class="btn btn-primary">회원가입</a>
-	<c:if test="${empty sessionScope.member.id}">   <a href="/member/login" style="font-size:40px;"class="btn btn-primary">로그인</a></c:if>
-    <c:if test="${not empty sessionScope.member.id}">   <a href="/member/logout" style="font-size:40px;"class="btn btn-primary">로그아웃</a></c:if>
-	<a href="/member/findpasswd" style="font-size:40px;"class="btn btn-primary">비밀번호찾기</a>
+	<a href="/member/signup" style="font-size:20px;"class="btn btn-primary">회원가입</a>
+	<c:if test="${empty sessionScope.member.id}">   <a href="/member/login" style="font-size:20px;"class="btn btn-primary">로그인</a></c:if>
+    <c:if test="${not empty sessionScope.member.id}">   <a href="/member/logout" style="font-size:20px;"class="btn btn-primary">로그아웃</a></c:if>
+	<a href="/member/findpasswd" style="font-size:20px;"class="btn btn-primary">비밀번호찾기</a>
 	
 	<c:if test="${not empty sessionScope.member.id}">
 	   <div>${sessionScope.member.id} 사용자님 안녕하세요</div>

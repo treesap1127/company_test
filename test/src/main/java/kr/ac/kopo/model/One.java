@@ -2,9 +2,14 @@ package kr.ac.kopo.model;
 
 import java.util.List;
 
+import javax.validation.constraints.NotBlank;
+
+
 public class One {
 	private int code;
+	@NotBlank(message = "내용은 필수 입력 값입니다.")
 	private String info;
+	@NotBlank(message = "제목은 필수 입력 값입니다.")
 	private String name;
 	private List<OneFile> onefile;
 	

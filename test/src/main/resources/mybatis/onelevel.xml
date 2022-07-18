@@ -6,6 +6,13 @@
 		select *
 		from one
 		<include refid="search"></include>
+		order by code desc
+		LIMIT #{offset},#{perPage}
+	</select>
+	<select id="total" resultType="Integer">
+		select count(*)
+		from one
+		<include refid="search"></include>
 	</select>
 	<select id="filenum" resultType="Integer">
 		select max(code)

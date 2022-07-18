@@ -11,6 +11,7 @@
    
    <mappers>
 		<mapper resource="mybatis/onelevel.xml"/>
+		<mapper resource="mybatis/member.xml"/>
    </mappers>
 
 </configuration>

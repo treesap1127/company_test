@@ -13,11 +13,13 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.springframework.web.multipart.MultipartFile;
 
 public class Excel {
+//	@Autowired
+//	BasicService service;
 	// 엑셀파일의 데이터 목록 가져오기
 		public List<Map<Integer, Object>> getListData(MultipartFile file, int startRowNum, int columnLength,String dataroad) {
 
-			List<Map<Integer, Object>> excelList = new ArrayList<Map<Integer,Object>>();//return 데이터
-	
+			List<Map<Integer, Object>> excelList = new ArrayList<Map<Integer, Object>>();//return 데이터
+	//		List<OneExcel> excelList = new ArrayList<OneExcel>();//return 데이터
 
 				Workbook workbook = null;
 				try {
@@ -36,15 +38,40 @@ public class Excel {
 						// 빈 행은 Skip
 						if (row.getCell(0) != null && !row.getCell(0).toString().isBlank()) {
 
-							Map<Integer, Object> map = new HashMap<Integer, Object>();
-
+							Map<Integer, Object> item = new HashMap<Integer, Object>();
+//							OneExcel item = new OneExcel();
 							int cells = columnLength;
+							
+							
 
 							for (columnIndex = 0; columnIndex <= cells; columnIndex++) {
 								Cell cell = row.getCell(columnIndex);
-								map.put(columnIndex, getCellValue(cell));//0이름 1번호 2주소 로 각 형변환 되서 List에 담김
+								item.put(columnIndex, getCellValue(cell));
+								
 							}
-							excelList.add(map);
+							excelList.add(item);
+/*
+							for (columnIndex = 0; columnIndex <= cells; columnIndex++) {
+								Cell cell = row.getCell(columnIndex);
+								
+								if (columnIndex==0) {
+									item.setName(getCellValue(cell));
+									System.out.println("무엇을 찍어 내는지0"+getCellValue(cell));
+								}
+								else if (columnIndex==1) {
+									item.setTel(getCellValue(cell));
+									System.out.println("무엇을 찍어 내는지1"+getCellValue(cell));
+								}
+								else if (columnIndex==2) {
+									item.setAddress(getCellValue(cell));
+									System.out.println("무엇을 찍어 내는지2"+getCellValue(cell));
+								}
+							}
+							excelList.add(item);
+							System.out.println(rowIndex);
+							item.setRow(rowIndex);
+							service.insertfile(item);
+*/
 						}
 					}
 	
@@ -53,8 +80,8 @@ public class Excel {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
+				return excelList;
 			
-			return excelList;
 		}
 		
 	@SuppressWarnings("deprecation")

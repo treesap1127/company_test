@@ -19,6 +19,10 @@ public class BasicDaoImpl implements BasicDao {
 	public List<One> list(Pager pager) {
 		return sql.selectList("basic.list",pager);
 	}
+	@Override
+	public int total(Pager pager) {
+		return sql.selectOne("basic.total", pager);
+	}
 
 	@Override
 	public void add(One data) {
@@ -110,5 +114,6 @@ public class BasicDaoImpl implements BasicDao {
 	public List<Integer> filecount(int code) {
 		return sql.selectList("basic.filecount", code);
 	}
+
 
 }

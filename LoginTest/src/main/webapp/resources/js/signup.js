@@ -6,7 +6,7 @@ function check_id_Async() {
         contentType: "application/json",
         dataType: "json",
         data: JSON.stringify(id),
-               //서버로 보내는 데이터 타입
+        //서버로 보내는 데이터 타입
         success: result => {
 				if(result==true){
 					alert("사용가능한 아이디입니다.");

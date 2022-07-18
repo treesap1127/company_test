@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="member">
+	<insert id="signup">
+		insert into user
+		values(#{id},#{passwd},#{name},#{tel},0)
+	</insert>
+	<select id="checkid" resultType="Integer">
+		select count(*)
+		from user
+		where
+		id=#{id}
+	</select>
+	<select id="login" resultType="User">
+		select *
+		from user
+		where id=#{id}
+	</select>
+	<update id="findpass">
+		UPDATE user
+		SET passwd=#{passwd},logincheck='0'
+		where
+		id=#{id}
+	</update>
+
+	<update id="updatepass">
+		UPDATE user
+		SET
+		passwd=#{passwd},logincheck='1'
+		where id=#{id}
+	</update>
+</mapper>

@@ -90,8 +90,8 @@ public class MemberController {
 			user.setId(sessionitem.getId());
 			user = service.updatepass(user);
 			if (user.getLogincheck() == 1) {				//질문! 성공-> 여기서
-//				session.setAttribute("member", user);//교체 하고 바로 로그인 되도록
-//				session.setMaxInactiveInterval(5 * 60);
+				session.setAttribute("member", user);//교체 하고 바로 로그인 되도록
+				session.setMaxInactiveInterval(5 * 60);
 				ra.addFlashAttribute("start", 1);
 				return "redirect:/";
 			}
@@ -99,8 +99,8 @@ public class MemberController {
 			ra.addFlashAttribute("update", 1);// 실패
 			return "redirect:/";
 		}													//->여기로 보내짐..?			
-//		session.setAttribute("member", user);//교체 하고 바로 로그인 되도록
-//		session.setMaxInactiveInterval(5 * 60);
+		session.setAttribute("member", user);//교체 하고 바로 로그인 되도록
+		session.setMaxInactiveInterval(5 * 60);
 		ra.addFlashAttribute("start", 1);
 		return "redirect:/";
 	}

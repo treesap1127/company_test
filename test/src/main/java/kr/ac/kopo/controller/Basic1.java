@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -20,6 +21,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,6 +34,7 @@ import kr.ac.kopo.model.One;
 import kr.ac.kopo.model.OneExcel;
 import kr.ac.kopo.model.OneFile;
 import kr.ac.kopo.service.BasicService;
+import kr.ac.kopo.util.Cryption;
 import kr.ac.kopo.util.Excel;
 import kr.ac.kopo.util.Pager;
 
@@ -38,7 +42,7 @@ import kr.ac.kopo.util.Pager;
 @Controller
 @RequestMapping("basic1")
 public class Basic1 {
-	
+	final String uploadPath = "C:/excel/";
 	@Autowired
 	BasicService service;
 	
@@ -46,35 +50,43 @@ public class Basic1 {
 	public String list(Model model,Pager pager) {
 		List<One> list =service.list(pager);
 		model.addAttribute("list", list);
-		return "basic1/list";
+		return "/basic1/list";
 	}
 	@GetMapping("/add")
 	public String add() {
-		return "basic1/add";
+		return "/basic1/add";
 	}
 	@PostMapping("/add")
-	public String add(One data,RedirectAttributes ra, OneFile filedata) {
-		final String uploadPath = "C:/excel/";
-		if(data.getName().isEmpty()||data.getInfo().isEmpty()) {
+	public String add(@Valid One data, BindingResult result,RedirectAttributes ra, OneFile filedata) throws Exception {
+		if(result.hasErrors()){// 에러의 유무 판단
+			for(ObjectError obj : result.getAllErrors()) {// Error를 넣는 객체?
+				System.out.println("valid 타입 :"+obj.getCode());
+				System.out.println("메세지:"+obj.getDefaultMessage());
+			}
 			ra.addFlashAttribute("fileError", true);
-			return "redirect:add";
+			return "/basic1/add";
 		}
+	
+	/*	if(data.getName().isEmpty()||data.getInfo().isEmpty()) {
+			ra.addFlashAttribute("fileError", true);
+			return "redirect:/basic1/add";
+		}*/
 		service.add(data);
 
 		for(MultipartFile file:filedata.getFiles()) {
 			
 			String filename = file.getOriginalFilename();
 			filename.toLowerCase();
-			boolean excelcheck =filename.endsWith("xls");// 어떤 파일인지 감시
-			if(excelcheck==false) {
-				excelcheck =filename.endsWith("xlsx");
-			}
-			if(file.isEmpty()||!excelcheck){//게시물 등록시 첨부파일 필수로 등록하도록
-				ra.addFlashAttribute("fileError", true);
-				int num=service.fileitem();
-				data.setCode(num);
-				service.delete(data.getCode());
-				return "redirect:add";
+			if(!filename.endsWith("xlsx")&&!filename.endsWith("xls")){
+				if (file.isEmpty()) {
+					//일단 없으면 와야해! 근데 있으면 검사해야해!
+					ra.addFlashAttribute("fileError", true);
+					int num=service.fileitem();
+					data.setCode(num);
+					service.delete(data.getCode());
+					return "redirect:/basic1/add";
+					//게시물 등록시 첨부파일 필수로 등록하도록
+				}
 			}
 			
 			String uuid =UUID.randomUUID().toString();
@@ -94,7 +106,9 @@ public class Basic1 {
 				Excel excelUtil=new Excel();
 				String dataroad=uploadPath+uuid+"_"+filename;//파일 경로
 				List<Map<Integer, Object>> listMap = excelUtil.getListData(file, 1, 3,dataroad); //시작행, 어디까지 있는지 열 
-									//리스트로 반환
+				//excelUtil.getListData(file, 1, 3,dataroad);
+				
+				//리스트로 반환
 				for (Map<Integer, Object> map : listMap) {
 					OneExcel userInfo = new OneExcel();
 					
@@ -121,12 +135,13 @@ public class Basic1 {
 				e.printStackTrace();
 			}
 		}
-		return "redirect:list";
+		return "redirect:/basic1/list";
 	}
+
 	@GetMapping("/view/{code}")
 	public String view(@PathVariable int code, Model model) {
 		List<OneFile> onefile=service.file(code);
-		
+
 
 		model.addAttribute("item", onefile);
 		
@@ -137,25 +152,25 @@ public class Basic1 {
 //		}
 		
 //		model.addAttribute("list", list);
-		return "basic1/view";
+		return "/basic1/view";
 	}
 	@GetMapping("/update/{code}")
 	public String update(@PathVariable int code,Model model) {
 		One item = service.item(code);
 		model.addAttribute("item",item);
-		return "basic1/update";
+		return "/basic1/update";
 	}
 	@PostMapping("/update/{code}")
 	public String update(One data) {
 		System.out.println(data.getInfo());
 		System.out.println(data.getName());
 		service.update(data);
-		return "redirect:../list";
+		return "redirect:/basic1/list";
 	}
 	@GetMapping("/delete/{code}")
 	public String delete(@PathVariable int code) {
 		service.delete(code);
-		return "redirect:../list";
+		return "redirect:/basic1/list";
 	}
 	@GetMapping("/excelDownload1/{filecode}")
 	public void down(HttpServletResponse response,@PathVariable int filecode) throws Exception {
@@ -163,7 +178,7 @@ public class Basic1 {
 		String filename=list.getFilename();	////파일 이름
 		
 		try {
-			String path = "C:\\excel\\"+list.getUUID()+"_"+filename; // 경로에 접근할 때 역슬래시('\') 사용
+			String path = uploadPath+list.getUUID()+"_"+filename; // 경로에 접근할 때 역슬래시('\') 사용
 	        
 	        response.setHeader("Content-Disposition", "attachment;filename=" +URLEncoder.encode(filename, StandardCharsets.UTF_8));
 	        					//파일 이름 설정
@@ -183,7 +198,7 @@ public class Basic1 {
        }
 	}
 	@GetMapping("/excelDownload2/{filecode}")
-	public String exceldown(HttpServletResponse response,@PathVariable int filecode) throws IOException {
+	public void exceldown(HttpServletResponse response,@PathVariable int filecode) throws IOException {
 		Workbook workbook = new XSSFWorkbook();
 			//엑셀 파일을 생성 --> 2007년도 껄로 가장 빠르다함.
         Sheet sheet = workbook.createSheet("게시판");// 1차 시트 생성
@@ -202,11 +217,10 @@ public class Basic1 {
             row.createCell(2).setCellValue(board.getAddress());
         }
  
-        response.setContentType("ms-vnd/excel");//엑셀파일을 처리할 콘텐츠 타입 ************content-type이란 간단히 말해 보내는 자원의 형식을 명시하기 위해 헤더에 실리는 정보
+     // response.setContentType("ms-vnd/excel");//엑셀파일을 처리할 콘텐츠 타입 ************content-type이란 간단히 말해 보내는 자원의 형식을 명시하기 위해 헤더에 실리는 정보
         response.setHeader("Content-Disposition", "attachment;filename=list.xls");// 파일명
  
         workbook.write(response.getOutputStream());// 응답으로 다운로드 시키는 문장
         workbook.close();//workbook 마무리
-		return "redirect:.";
 	}
 }

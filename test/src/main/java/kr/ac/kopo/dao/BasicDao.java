@@ -41,5 +41,7 @@ public interface BasicDao {
 
 	List<Integer> filecount(int code);
 
+	int total(Pager pager);
+
 
 }

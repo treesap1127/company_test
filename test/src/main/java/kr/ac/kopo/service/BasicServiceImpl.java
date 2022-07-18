@@ -17,6 +17,8 @@ public class BasicServiceImpl implements BasicService {
 	BasicDao dao;
 	@Override
 	public List<One> list(Pager pager) {
+		int total = dao.total(pager);
+		pager.setTotal(total);
 		return dao.list(pager);
 	}
 

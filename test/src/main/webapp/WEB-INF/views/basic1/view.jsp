@@ -8,6 +8,7 @@
 <meta charset="UTF-8">
 </head>
 <body style="text-align: center;">
+<c:import url="/top_menu"></c:import>
 		<c:forEach var="item" items="${item}">
 		<div>
 			글 번호 ${item.code} 파일명 ${item.filename}

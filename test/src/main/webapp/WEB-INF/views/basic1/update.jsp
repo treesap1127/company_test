@@ -16,6 +16,7 @@
 </style>
 </head>
 <body style="text-align: center;">
+<c:import url="/top_menu"></c:import>
 	  <div class="inner_case" style="padding-bottom: 10rem;">
 		<form method="post">
 			<div class="form-floating">
@@ -30,7 +31,7 @@
 
 			<div class="add_button">
 				<button class="end_button">등록</button>
-				<a href="../list" class="back_button">뒤로가기</a>
+				<a href="/basic1/list" class="back_button">뒤로가기</a>
 			</div>
 		</form>
 	</div>
