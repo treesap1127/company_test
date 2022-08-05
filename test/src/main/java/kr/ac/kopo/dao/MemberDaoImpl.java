@@ -29,12 +29,12 @@ public class MemberDaoImpl implements MemberDao {
 	@Override
 	public User login(User item) {
 		User login = sql.selectOne("member.login", item);
-/*		try {
+		try {
 			login.getName();// 여기서 null 값이 들어가면 바로 오류가 떠버린다..
 		} catch (NullPointerException e) {
 			item.setTel("1");
 			return item;
-		}*/
+		}
 		return login;
 	}
 

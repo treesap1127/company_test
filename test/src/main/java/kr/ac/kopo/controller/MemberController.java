@@ -44,6 +44,15 @@ public class MemberController {
 		ra.addFlashAttribute("passwd", passwd);// 임시 비밀번호 전송
 		session.invalidate();// 로그인 되어있는 경우 새로 로그인!
 		return "redirect:/";
+		
+/*
+ 	// 유효성 검사 커스텀 비밀번호 확인 예시
+	@InitBinder
+	public void initBinder(WebDataBinder binder) {
+		UserValidator validator1 = new UserValidator();
+	 	binder.addValidators(validator1);
+	}
+*/
 	}
 
 	@GetMapping("/findpasswd")

@@ -16,10 +16,11 @@
 	transform:translateX(-50%);
 }
 </style>
-<script src="../js/add.js"></script>
+<script src="/js/add.js"></script>
 <script>
 $(function(){
-	if(${fileError}){
+	fileerror=`${fileError}`;
+	if(fileerror){
 		alert("엑셀파일 및 값을 등록해주세요");
 	}
 })

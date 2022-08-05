@@ -17,8 +17,8 @@
 		alert("시간이 오래 지나 세션이 만료되었습니다 \n 다시 로그인해주세요");
 	}
 	if(start==1){
-//		alert("첫 로그인을 축하드립니다."); //비밀번호 변경 후 세션을 지급 했을시!
-		alert("비밀번호 변경이 완료 되었습니다. \n 다시 로그인 해주세요");
+		alert("첫 로그인을 축하드립니다."); //비밀번호 변경 후 세션을 지급 했을시!
+//		alert("비밀번호 변경이 완료 되었습니다. \n 다시 로그인 해주세요");
 	}
 </script>
 </head>
@@ -30,7 +30,7 @@
 	<c:if test="${empty sessionScope.member.id}"><a href="/member/findpasswd" style="font-size:40px;"class="btn btn-primary">비밀번호찾기</a></c:if>
 	
 	<c:if test="${not empty sessionScope.member.id}">
-	   <div>${sessionScope.member.id} 사용자님 안녕하세요</div>
+	   <div>${sessionScope.member.name} 사용자님 안녕하세요</div>
 	</c:if>
 </div>
 </body>

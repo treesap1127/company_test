@@ -92,6 +92,10 @@
 		delete from onefile
 		where code=#{code}
 	</delete>
+	<delete id="filedelete">
+		delete from onefile
+		where filecode=#{filecode}
+	</delete>
 	<delete id="deleteexcel">
 		delete from one_excel
 		where filecode=#{filecode}
@@ -114,5 +118,7 @@
 			</if>
 		</where>
 	</sql>
-	
+	<select id="daylist" resultType="String">
+		SELECT * FROM oneday_off 
+	</select>
 </mapper>

@@ -15,10 +15,10 @@
                     <div style="display: flex;">
 	                    <div class="search_move_1">
 	                           <select name="search" class="form-select control">
-	                              <option value="0">검색항목</option>
+	                              <option value="0">전체</option>
 	                              <option value="1" ${pager.search==1?'selected':''}>번호</option>
-	                              <option value="2" ${pager.search==2?'selected':''}>내용</option>
-	                              <option value="3" ${pager.search==3?'selected':''}>제목</option>
+	                              <option value="2" ${pager.search==2?'selected':''}>제목</option>
+	                              <option value="3" ${pager.search==3?'selected':''}>내용</option>
 	                         </select>
 	                     </div>
 	                     <div class="search_move_2"><input type="text" name="keyword" value="<c:out value="${pager.keyword eq 'null'?'':pager.keyword}"/>" class="form-control control"></div>
@@ -33,8 +33,8 @@
                  <thead class="table_head">
                     <tr>
                         <td>번호</td>
-                        <td>작성일</td>
                         <td>제목</td>
+                        <td>내용</td>
                     </tr>
                 </thead>
     
@@ -44,8 +44,8 @@
                         <tr>
                             <!--  여기서 내용을 담아줌! -->
                             <td>${item.code}</td>
-                            <td>${item.info}</td>
                             <td>${item.name}</td>
+                            <td>${item.info}</td>
                             <td><a href="/basic1/view/${item.code}" class="btn btn-primary">파일 리스트 출력</a></td>
                             <td class="deleteUpdate"><a href="/basic1/delete/${item.code}" class="btn btn-sm btn-danger">삭제</a> 
     												<a href="/basic1/update/${item.code}" class="btn btn-sm btn-warning">변경</a></td>

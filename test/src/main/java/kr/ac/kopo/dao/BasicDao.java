@@ -43,5 +43,9 @@ public interface BasicDao {
 
 	int total(Pager pager);
 
+	List<OneFile> updatefileitem(int code);
+
+	void filedelte(int filecode);
+
 
 }

@@ -8,8 +8,13 @@
 <head>
 <jsp:include page="../include/header.jsp"></jsp:include>
 <script src="../js/signup.js"></script>
+
+<style>
+	.txt_field{	text-align: left;}
+</style>
 </head>
-<body>
+
+<body style="text-align: center; width: 25%; position: relative; left: 50%; transform: translateX(-50%);">
 	<div class="center">
 		<h1>회원가입</h1>
 		<form:form id="signup_form" method="post">

@@ -12,9 +12,12 @@
 		alert("아이디 비밀번호가 틀렸습니다.");
 	}
 </script>
+<style>
+	.txt_field{	text-align: left;}
+</style>
 </head>
 
-<body>
+<body style="text-align: center; width: 20%; position: relative; left: 50%; transform: translateX(-50%);">
     <h1>통합로그인</h1> 		
     
 		<form id="login_form" method="post">

@@ -32,4 +32,8 @@ public interface BasicService {
 
 	OneFile onefile_fliecode(int filecode);
 
+	List<OneFile> updatefileitem(int code);
+
+	void filedelete(int filecode);
+
 }

@@ -43,6 +43,11 @@ public class BasicDaoImpl implements BasicDao {
 		sql.delete("basic.deletefile", code);
 	}
 	@Override
+	public void filedelte(int filecode) {
+		sql.delete("basic.filedelte", filecode);
+		
+	}
+	@Override
 	public void deleteexcel(int filecode) {
 		sql.delete("basic.deleteexcel", filecode);
 	}
@@ -93,7 +98,12 @@ public class BasicDaoImpl implements BasicDao {
 		}
 		return data;
 	}
-
+	
+	
+	@Override
+	public List<OneFile> updatefileitem(int code) {
+		return sql.selectList("basic.file",code);
+	}
 
 	@Override
 	public void insertfile(OneExcel oneUser) {
@@ -114,6 +124,4 @@ public class BasicDaoImpl implements BasicDao {
 	public List<Integer> filecount(int code) {
 		return sql.selectList("basic.filecount", code);
 	}
-
-
 }

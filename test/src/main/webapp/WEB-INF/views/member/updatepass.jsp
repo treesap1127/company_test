@@ -13,18 +13,28 @@ $(function(){
 function test() {
 	//특수문자,문자,숫자 포함 형태의 8~15자리 비밀번호 식!
 	const regx = /^.*(?=^.{8,15}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=()]).*$/;
+	passwd=$("#passwd").val();
+	passwdcheck=$("#passwdcheck").val();
+	console.log(passwd);
 	if (!regx.test($("#passwd").val())) {
 		alert("비밀번호 형식을 지켜주세요");
 		$("#passwd").focus();
+	}
+	else if(passwd!=passwdcheck){
+		alert("비밀번호와 비밀번호 확인이 다릅니다.");
+		$("#passwdcheck").focus();
 	}
 	else{
 		login_form.submit();
 	}
 }
 </script>
+<style>
+	.txt_field{	text-align: left;}
+</style>
 </head>
 
-<body>
+<body style="text-align: center; width: 20%; position: relative; left: 50%; transform: translateX(-50%);">
     <h1>비밀번호 변경</h1> 		
     
 		<form name="login_form"id="login_form" method="post">
@@ -32,13 +42,18 @@ function test() {
 		    <label>아이디</label>
           	<input type="text" name="id" value="<c:out value="${id}" />" readonly>
         </div>
-			  <div class="txt_field">
+		<div class="txt_field">
 			  <label>비밀번호</label>
         	  <input type="password" name="passwd" id="passwd" value="<c:out value=""/>" required>
         	   <p>(특수문자,문자,숫자 포함 형태의 8~15자리 이내로 쓰시오)</p>
         </div>
-        <button type="button" onclick="test()">비밀번호 변경</button>
         
+        <div class="txt_field">
+			  <label>비밀번호 확인</label>
+        	  <input type="password" name="passwdcheck" id="passwdcheck" value="<c:out value=""/>" required>
+        	   <p>(위 비밀번호와 동일하게 작성해주세요)</p>
+        </div>
+        <button type="button" onclick="test()">비밀번호 변경</button>
       </form>
     <jsp:include page="../include/body.jsp"></jsp:include>
 </body>

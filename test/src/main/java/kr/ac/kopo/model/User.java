@@ -6,7 +6,7 @@ import javax.validation.constraints.Pattern;
 public class User {
 	@Pattern(regexp="[A-za-z0-9]{5,15}",
             message = "영문자로 시작하는 영문자 또는 숫자 6~20자로 입력해주세요")
-	private String id;
+	public String id;
 	private String passwd;
 	@Pattern(regexp="[가-힣a-zA-Z]{1,32}",
             message = "닉네임은 한글/영문 32자만 입력 가능합니다.")

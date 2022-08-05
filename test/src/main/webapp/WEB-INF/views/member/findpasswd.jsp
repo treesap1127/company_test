@@ -11,16 +11,19 @@ if (pass==1) {
 	alert("존재하는 아이디가 없습니다.");
 }
 </script>
+<style>
+	.txt_field{	text-align: left;}
+</style>
 </head>
 
-<body>
+<body style="text-align: center; width: 20%; position: relative; left: 50%; transform: translateX(-50%);">
     <h1>비밀번호 찾기</h1> 		
 		<form id="login_form" method="post">
-		   <div class="txt_field">
-		    <label>아이디</label>
-          	<input type="text" name="id" value="<c:out value=""/>" required>
-        </div>
-        <button >비밀번호 찾기</button>
+		   <div class="txt_field" style="margin-left: 30px; margin-top: 50px;">
+		    	<label>아이디</label>
+          		<input type="text" name="id" value="<c:out value=""/>" required>
+           </div>
+        <button style="margin-top: 30px;">비밀번호 찾기</button>
       </form>
 
         <div class="signup_link" style="margin-top:100px;">

@@ -35,22 +35,22 @@ public class MemberServiceImpl implements MemberService {
 	public User login(User item) {
 		
 		User pass = dao.login(item);
+		
 		Cryption crypt = new Cryption();
         String cipherText=null;
 		try {
-			cipherText = crypt.decrypt(pass.getPasswd());
+			cipherText = crypt.decrypt(pass.getPasswd());// null이거나 암호화 되지 않은 코드 들어가면 catch
 		} catch (Exception e) {
-			pass.setTel("1");
-	        return pass;
+			e.printStackTrace();
+			item.setTel("1");//받아온 값을 변경하여 리턴
+	        return item;
 		}
-        System.out.println(cipherText+":::end:::"+item.getPasswd());
-        String passwd=item.getPasswd();
-        if(cipherText.equals(passwd)) {
+        if(cipherText.equals(item.getPasswd())) {
         	pass.setPasswd(null);//password 유출하면 안되니까 모델에서 비우고 실행!
     		return pass;
         }
-        pass.setTel("1");
-        return pass;
+        item.setTel("1");
+        return item;
 		
 	}
 

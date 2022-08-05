@@ -4,13 +4,14 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
@@ -26,7 +27,9 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -34,8 +37,8 @@ import kr.ac.kopo.model.One;
 import kr.ac.kopo.model.OneExcel;
 import kr.ac.kopo.model.OneFile;
 import kr.ac.kopo.service.BasicService;
-import kr.ac.kopo.util.Cryption;
 import kr.ac.kopo.util.Excel;
+import kr.ac.kopo.util.ExcelEncoding;
 import kr.ac.kopo.util.Pager;
 
 
@@ -56,6 +59,7 @@ public class Basic1 {
 	public String add() {
 		return "/basic1/add";
 	}
+	
 	@PostMapping("/add")
 	public String add(@Valid One data, BindingResult result,RedirectAttributes ra, OneFile filedata) throws Exception {
 		if(result.hasErrors()){// 에러의 유무 판단
@@ -72,13 +76,14 @@ public class Basic1 {
 			return "redirect:/basic1/add";
 		}*/
 		service.add(data);
-
+		int i=0;
+		
 		for(MultipartFile file:filedata.getFiles()) {
-			
+			i++;
 			String filename = file.getOriginalFilename();
 			filename.toLowerCase();
 			if(!filename.endsWith("xlsx")&&!filename.endsWith("xls")){
-				if (file.isEmpty()) {
+				if (file.isEmpty()||i>=4) {
 					//일단 없으면 와야해! 근데 있으면 검사해야해!
 					ra.addFlashAttribute("fileError", true);
 					int num=service.fileitem();
@@ -156,31 +161,102 @@ public class Basic1 {
 	}
 	@GetMapping("/update/{code}")
 	public String update(@PathVariable int code,Model model) {
+		List<OneFile> onefile=service.updatefileitem(code);
+		model.addAttribute("fileitem", onefile);
+		
+		//파일 몇개인지! 파일에 대한 이름! UUID
+		//"C:/excel/${fileitem.UUID}_${fileitem.filename}"
+		
 		One item = service.item(code);
 		model.addAttribute("item",item);
 		return "/basic1/update";
 	}
+	
 	@PostMapping("/update/{code}")
-	public String update(One data) {
-		System.out.println(data.getInfo());
-		System.out.println(data.getName());
-		service.update(data);
+	public String update(One data, BindingResult result,RedirectAttributes ra, OneFile filedata) throws Exception {
+		service.update(data);//one 수정
+		int i=0;
+		
+		for(MultipartFile file:filedata.getFiles()) {
+			i++;
+			String filename = file.getOriginalFilename();
+			filename.toLowerCase();
+			if(!filename.endsWith("xlsx")&&!filename.endsWith("xls")){
+				if (file.isEmpty()||i>=4) {
+					//일단 없으면 와야해! 근데 있으면 검사해야해!
+					ra.addFlashAttribute("fileError", true);
+					int num=service.fileitem();
+					data.setCode(num);
+					service.update(data);//one 수정
+					return "redirect:/basic1/update";
+					//게시물 등록시 첨부파일 필수로 등록하도록
+				}
+			}
+			
+			String uuid =UUID.randomUUID().toString();
+			System.out.println("파일이름"+filename+"and uuid"+uuid);
+			data.setCode(service.fileitem());
+			try {
+				int rnum= 1;
+				
+				file.transferTo(new File(uploadPath+uuid+"_"+filename));//파일 저장
+				filedata.setFilename(filename);
+				filedata.setUUID(uuid);
+				service.fileadd(filedata,data);
+				filedata.setFilecode(service.filecode());
+				List<OneExcel> ExcelList = new ArrayList<OneExcel>();
+
+				// 엑셀의 셀데이터를 가져와서 모델에 담기
+				Excel excelUtil=new Excel();
+				String dataroad=uploadPath+uuid+"_"+filename;//파일 경로
+				List<Map<Integer, Object>> listMap = excelUtil.getListData(file, 1, 3,dataroad); //시작행, 어디까지 있는지 열 
+				//excelUtil.getListData(file, 1, 3,dataroad);
+				
+				//리스트로 반환
+				for (Map<Integer, Object> map : listMap) {
+					OneExcel userInfo = new OneExcel();
+					
+					// 각 셀의 데이터를 VO에 set한다.
+					userInfo.setName(map.get(0).toString());
+					userInfo.setTel(map.get(1).toString());
+					userInfo.setAddress(map.get(2).toString());
+
+					ExcelList.add(userInfo);
+				}
+				for (OneExcel oneUser : ExcelList){
+					oneUser.setRow(rnum);
+					oneUser.setFilecode(filedata.getFilecode());
+					rnum++;
+					System.out.print(oneUser.getRow()+" :row   ");
+					System.out.print(oneUser.getFilecode()+" :code   ");
+					System.out.print("이름 ->"+oneUser.getName());
+					System.out.print("주소 ->"+oneUser.getAddress());
+					System.out.println("번호 ->"+oneUser.getTel());
+					service.insertfile(oneUser);
+				}
+		}
+			catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		return "redirect:/basic1/list";
 	}
+	
 	@GetMapping("/delete/{code}")
 	public String delete(@PathVariable int code) {
 		service.delete(code);
 		return "redirect:/basic1/list";
 	}
 	@GetMapping("/excelDownload1/{filecode}")
-	public void down(HttpServletResponse response,@PathVariable int filecode) throws Exception {
+	public void down(HttpServletRequest request,HttpServletResponse response,@PathVariable int filecode,ExcelEncoding fEncoding) throws Exception {
 		OneFile list = service.onefile_fliecode(filecode);// 파일 코드로 파일에 대한 정보 불러오기
-		String filename=list.getFilename();	////파일 이름
+		String Fname=list.getFilename();	////파일 이름
 		
 		try {
-			String path = uploadPath+list.getUUID()+"_"+filename; // 경로에 접근할 때 역슬래시('\') 사용
-	        
-	        response.setHeader("Content-Disposition", "attachment;filename=" +URLEncoder.encode(filename, StandardCharsets.UTF_8));
+			fEncoding.ExcelEncoding(Fname,request,response);
+			
+			String path = uploadPath+list.getUUID()+"_"+Fname; // 경로에 접근할 때 역슬래시('\') 사용
+	      /*response.setHeader("Content-Disposition","attachment;filename=" +URLEncoder.encode(filename, "UTF_8"));*/
 	        					//파일 이름 설정
 	        @SuppressWarnings("resource")
             FileInputStream fileInputStream = new FileInputStream(path);
@@ -200,7 +276,7 @@ public class Basic1 {
 	@GetMapping("/excelDownload2/{filecode}")
 	public void exceldown(HttpServletResponse response,@PathVariable int filecode) throws IOException {
 		Workbook workbook = new XSSFWorkbook();
-			//엑셀 파일을 생성 --> 2007년도 껄로 가장 빠르다함.
+			
         Sheet sheet = workbook.createSheet("게시판");// 1차 시트 생성
         int rowNo = 0;
  
@@ -223,4 +299,65 @@ public class Basic1 {
         workbook.write(response.getOutputStream());// 응답으로 다운로드 시키는 문장
         workbook.close();//workbook 마무리
 	}
+	@ResponseBody
+	@PostMapping("/filedelete")
+	public String filedelete(@RequestBody int filecode) {
+		try {
+			service.filedelete(filecode);
+		} catch (Exception e) {
+			return "1";
+		}
+		return "0";
+	}
+	
+	
+	public String ExcelEncoding(String filename,HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String browser = getBrowser(request);
+		
+		String dispositionPrefix = "attachment; filename=";
+		String encodedFilename = null;
+		
+		if (browser.equals("MSIE")) { 
+			encodedFilename =URLEncoder.encode(filename, "UTF-8").replaceAll("\\+", "%20");
+			}
+		else if (browser.equals("Trident")) {
+			encodedFilename =
+			URLEncoder.encode(filename, "UTF-8").replaceAll("\\+", "%20");
+		}
+		else if (browser.equals("Firefox")) {
+			encodedFilename = "\"" + new String(filename.getBytes("UTF-8"), "8859_1") + "\"";
+			encodedFilename =URLDecoder.decode(encodedFilename); 
+			} 
+		else if (browser.equals("Chrome")) {
+			StringBuffer sb = new StringBuffer();
+			for (int i = 0; i < filename.length(); i++) {
+				char c = filename.charAt(i);
+				if (c > '~') {
+					sb.append(URLEncoder.encode("" + c, "UTF-8"));
+				} 
+				else {
+					sb.append(c);
+				}
+				encodedFilename = sb.toString();
+				} 
+		}
+		else if (browser.equals("Safari")){
+			encodedFilename = "\"" + new String(filename.getBytes("UTF-8"), "8859_1")+ "\"";
+			encodedFilename =URLDecoder.decode(encodedFilename);
+		}
+		else {
+			encodedFilename = "\"" + new String(filename.getBytes("UTF-8"), "8859_1")+ "\"";
+		}
+		return encodedFilename;
+	}
+	
+	public String getBrowser(HttpServletRequest request) {
+		String header = request.getHeader("User-Agent");
+		
+		if (header.indexOf("MSIE") > -1) return "MSIE";
+		else if (header.indexOf("Trident") > -1) return "Trident";
+		else if (header.indexOf("Chrome") > -1) return "Chrome";
+		else if (header.indexOf("Safari") > -1)  return "Safari";
+		return "Firefox";
+	}	
 }
