@@ -121,7 +121,6 @@
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
 		</dependency>
-
 		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
@@ -176,7 +175,7 @@
 			<artifactId>hibernate-validator</artifactId>
 			<version>6.1.2.Final</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi</artifactId>
