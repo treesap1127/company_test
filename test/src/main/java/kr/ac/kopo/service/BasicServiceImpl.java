@@ -10,7 +10,6 @@ import kr.ac.kopo.dao.BasicDao;
 import kr.ac.kopo.model.One;
 import kr.ac.kopo.model.OneExcel;
 import kr.ac.kopo.model.OneFile;
-import kr.ac.kopo.model.User;
 import kr.ac.kopo.util.Pager;
 @Service
 public class BasicServiceImpl implements BasicService {

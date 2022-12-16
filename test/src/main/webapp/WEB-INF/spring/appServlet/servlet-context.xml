@@ -29,22 +29,5 @@
 	</beans:bean>
 	<!-- controller에서 온 return 값을 prefix suffix 를 붙여 view를 불러옴 -->
 	
-	<context:component-scan base-package="kr.ac.kopo" />
-	<!--  -->
- 	<interceptors>
-		<interceptor>
-			<mapping path="/**"/>
-			<exclude-mapping path="/member/updatepass"/><!-- 첫 로그인 호출 -->
-			<beans:bean class="kr.ac.kopo.interceptor.LoginStartInterceptor"></beans:bean>
-		</interceptor>
-		<interceptor>
-			<mapping path="/basic1/**"/>
-			<exclude-mapping path="/basic1/list"/>
-			<exclude-mapping path="/basic1/view/**"/>
-			<exclude-mapping path="/basic1/excelDownload1/**"/>
-			<exclude-mapping path="/basic1/excelDownload2/**"/>
-			<beans:bean class="kr.ac.kopo.interceptor.LoginInterceptor"></beans:bean>
-		</interceptor>
-	</interceptors>
 	
 </beans:beans>
