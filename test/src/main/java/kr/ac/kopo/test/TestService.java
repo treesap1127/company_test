@@ -4,11 +4,8 @@ package kr.ac.kopo.test;
 public abstract class TestService {
 
 	public void test1() {}		//인터페이스와 다르게 메소드 형식을 지닌다.
-	public void test2() {}// 서비스 상속 받은 곳에서 굳이 구현하지 않아도 괜찮다.
-//	public abstract void test3(); // 서비스에서 구현을 꼭 해줘야한다!
-	public void test4() {
-		System.out.println("extends3");
-	}
+	public void test2() {System.out.println("test");}// 서비스 상속 받은 곳에서 굳이 구현하지 않아도 괜찮다.
+	public void test4() {};
 
 }
 // 추상 클래스의 경우 추상 메소드는 반드시 구현해야 하는 경우 선언 해준다!

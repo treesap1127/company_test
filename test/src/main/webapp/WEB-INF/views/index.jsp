@@ -17,6 +17,84 @@
  <div><a href="/basic1/list" class="btn btn-primary" style="margin:50px;padding:30px;font-size:20px;">테이블 접속</a></div>
 </div>
 
+
+
+<div style="width:1000px;height:1000px;position:relative">
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=f9054b4984f2033fe99fc7e44f69cdad&libraries=services"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=f9054b4984f2033fe99fc7e44f69cdad"></script>
+<script>
+function addressTest(){
+	  new daum.Postcode({
+	        oncomplete: function(data) {
+	        	// 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                addr = ''; // 주소 변수
+
+                //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                    addr = data.roadAddress;
+                } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                    addr = data.jibunAddress;
+                }
+                //주소 정보를 해당 필드에 넣는다.
+                document.getElementById("test").value = addr;
+            }
+        }).open();
+}
+function outTest(){
+	addr=document.getElementById("test").value;
+    //주소 검색 값 좌표로 변환
+    let geocoder = new daum.maps.services.Geocoder();
+    geocoder.addressSearch(addr, function(result, status) {
+    // 정상적으로 검색이 완료됐으면 
+        if (status === kakao.maps.services.Status.OK) {
+       	 epy=result[0].y;
+       	 epx=result[0].x;
+       	} 
+	});
+if (navigator.userAgent.match(/iPad|Tablet|Android|iPhone|iPod/i)){
+        addr=encodeURI(addr);
+   		console.log("https://m.map.kakao.com/scheme/route?ep="+epy+"%2C"+epx+"&en=K-water%EC%84%B8%EC%A2%85%EA%B4%80&sp=35.87060079847048%2C127.43702303117742&sn="+addr+"&by=car","_blank");
+   		window.open("https://m.map.kakao.com/scheme/route?ep="+epy+"%2C"+epx+"&en=K-water%EC%84%B8%EC%A2%85%EA%B4%80&sp=35.87060079847048%2C127.43702303117742&sn="+addr+"&by=car","_blank");
+} else {
+        // 기타 PC 브라우저
+         window.open("https://naver.com","_blank")
+}
+}
+function outTest2(){
+	location.href="https://map.kakao.com/?sName=메이아이&eName=서울시청";
+}
+</script>
+	test
+<input type="text" id="test" onclick="addressTest()" readonly/>
+<input type="button" id="test" onclick="outTest()">out</button>
+<input type="button" id="test" onclick="outTest2()">in</button>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <form name="calendarFrm" id="calendarFrm" method="GET">
 <div class="calendar" >
 	<!--날짜 네비게이션  -->

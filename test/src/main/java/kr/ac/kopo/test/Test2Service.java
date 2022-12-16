@@ -2,7 +2,6 @@ package kr.ac.kopo.test;
 
 
 public interface Test2Service {
-
 	void test();
 //	void testtest();
 	public default void testtesttest() {//주석 해체 후 컨트롤러에서 명령

@@ -36,7 +36,7 @@ public class Excel {
 						Row row = sheet.getRow(rowIndex);
 
 						// 빈 행은 Skip
-						if (row.getCell(0) != null && !row.getCell(0).toString().isBlank()) {
+						if (row.getCell(0) != null && !row.getCell(0).toString().isEmpty()) {
 
 							Map<Integer, Object> item = new HashMap<Integer, Object>();
 //							OneExcel item = new OneExcel();
