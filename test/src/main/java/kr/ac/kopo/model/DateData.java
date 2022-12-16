@@ -11,7 +11,7 @@ public class DateData {
 	private String year ="";
 	private String month ="";
 	private String date="";
-	private String value;// 오늘인지 구분
+	private String value;// �삤�뒛�씤吏� 援щ텇
 	private List<String> dayOff;
 	public String getYear() {
 		return year;
@@ -45,53 +45,58 @@ public class DateData {
 		this.value = value;
 	}
 
-	// 날짜에 관련된 달력정보를 가지는 메서드
-	public Map<String, Integer> today_info(DateData dateData) {// 정해진 날짜의 달력 정보..
-		// 날짜 캘린더 함수에 삽입.
+	// �궇吏쒖뿉 愿��젴�맂 �떖�젰�젙蹂대�� 媛�吏��뒗 硫붿꽌�뱶
+	public Map<String, Integer> today_info(DateData dateData) {// �젙�빐吏� �궇吏쒖쓽 �떖�젰 �젙蹂�..
+		// �궇吏� 罹섎┛�뜑 �븿�닔�뿉 �궫�엯.
 		Map<String, Integer> today_Data = new HashMap<String, Integer>();
 		Calendar cal = Calendar.getInstance();
-		cal.set(Integer.parseInt(dateData.getYear()), Integer.parseInt(dateData.getMonth()), 1);// 캘린더에 정해진 날짜 삽입
+		cal.set(Integer.parseInt(dateData.getYear()), Integer.parseInt(dateData.getMonth()), 1);// 罹섎┛�뜑�뿉 �젙�빐吏� �궇吏� �궫�엯
 
-		int startDay = cal.getMinimum(Calendar.DATE);// 캘린더에 첫날
-		int endDay = cal.getActualMaximum(Calendar.DAY_OF_MONTH);// 캘린더에 마지막날
-		int start = cal.get(Calendar.DAY_OF_WEEK);// 캘린더 요일-> 시작 하는 만큼 빈 공간 삽입
-
-		Calendar todayCal = Calendar.getInstance();// 오늘
-		SimpleDateFormat ysdf = new SimpleDateFormat("yyyy");// 오늘년도
-		SimpleDateFormat msdf = new SimpleDateFormat("M");// 오늘월
-
-		int today_year = Integer.parseInt(ysdf.format(todayCal.getTime()));// 핵심 년도 가져오기
-		int today_month = Integer.parseInt(msdf.format(todayCal.getTime()));// 핵심 월 가져오기
-
-		int search_year = Integer.parseInt(dateData.getYear()); // 검색 년도
-		int search_month = Integer.parseInt(dateData.getMonth()) + 1; // 검색 월
+		int startDay = cal.getMinimum(Calendar.DATE);// 罹섎┛�뜑�뿉 泥ル궇
+		int endDay = cal.getActualMaximum(Calendar.DAY_OF_MONTH);// 罹섎┛�뜑�뿉 留덉�留됰궇
+		int start = cal.get(Calendar.DAY_OF_WEEK);// 罹섎┛�뜑 �슂�씪-> �떆�옉 �븯�뒗 留뚰겮 鍮� 怨듦컙 �궫�엯
 		
-		// 검색 월과 오늘 월 체크
+		
+	   System.out.println(cal.get(Calendar.YEAR));
+	   System.out.println(cal.get(Calendar.MONTH));
+	   System.out.println(cal.get(Calendar.DATE));
+
+		Calendar todayCal = Calendar.getInstance();// �삤�뒛
+		SimpleDateFormat ysdf = new SimpleDateFormat("yyyy");// �삤�뒛�뀈�룄
+		SimpleDateFormat msdf = new SimpleDateFormat("M");// �삤�뒛�썡
+
+		int today_year = Integer.parseInt(ysdf.format(todayCal.getTime()));// �빑�떖 �뀈�룄 媛��졇�삤湲�
+		int today_month = Integer.parseInt(msdf.format(todayCal.getTime()));// �빑�떖 �썡 媛��졇�삤湲�
+
+		int search_year = Integer.parseInt(dateData.getYear()); // 寃��깋 �뀈�룄
+		int search_month = Integer.parseInt(dateData.getMonth()) + 1; // 寃��깋 �썡
+		
+		// 寃��깋 �썡怨� �삤�뒛 �썡 泥댄겕
 		int today =-1;
 		if (today_year == search_year && today_month == search_month) {
 			SimpleDateFormat dsdf = new SimpleDateFormat("dd");//
 			today = Integer.parseInt(dsdf.format(todayCal.getTime()));
 		}
-		// 오늘날의 날짜는 해당 월과 년 일때만 사용
+		// �삤�뒛�궇�쓽 �궇吏쒕뒗 �빐�떦 �썡怨� �뀈 �씪�븣留� �궗�슜
 		search_month = search_month - 1;
-		// 이전 년,월 + 다음 년,월
+		// �씠�쟾 �뀈,�썡 + �떎�쓬 �뀈,�썡
 		Map<String, Integer> before_after_calendar = before_after_calendar(search_year, search_month);
 
-		// 캘린더 함수 end
-		today_Data.put("start", start);// 시작 요일
-		today_Data.put("startDay", startDay);// 시작일
-		today_Data.put("endDay", endDay); // 마지막일
-		today_Data.put("today", today); // 당일
-		today_Data.put("search_year", search_year); // 검색년
-		today_Data.put("search_month", search_month + 1); // 검색월
-		today_Data.put("before_year", before_after_calendar.get("before_year"));// 전년도
-		today_Data.put("before_month", before_after_calendar.get("before_month"));// 전달
-		today_Data.put("after_year", before_after_calendar.get("after_year")); // 다음년
-		today_Data.put("after_month", before_after_calendar.get("after_month"));// 다음달
+		// 罹섎┛�뜑 �븿�닔 end
+		today_Data.put("start", start);// �떆�옉 �슂�씪
+		today_Data.put("startDay", startDay);// �떆�옉�씪
+		today_Data.put("endDay", endDay); // 留덉�留됱씪
+		today_Data.put("today", today); // �떦�씪
+		today_Data.put("search_year", search_year); // 寃��깋�뀈
+		today_Data.put("search_month", search_month + 1); // 寃��깋�썡
+		today_Data.put("before_year", before_after_calendar.get("before_year"));// �쟾�뀈�룄
+		today_Data.put("before_month", before_after_calendar.get("before_month"));// �쟾�떖
+		today_Data.put("after_year", before_after_calendar.get("after_year")); // �떎�쓬�뀈
+		today_Data.put("after_month", before_after_calendar.get("after_month"));// �떎�쓬�떖
 		return today_Data;
 	}
 
-	// 이전달 다음달 및 이전년도 다음년도 월 0으로 초기화 시키고 연도 내리거나 올림!
+	// �씠�쟾�떖 �떎�쓬�떖 諛� �씠�쟾�뀈�룄 �떎�쓬�뀈�룄 �썡 0�쑝濡� 珥덇린�솕 �떆�궎怨� �뿰�룄 �궡由ш굅�굹 �삱由�!
 	private Map<String, Integer> before_after_calendar(int search_year, int search_month) {
 		Map<String, Integer> before_after_data = new HashMap<String, Integer>();
 		int before_year = search_year;
@@ -125,7 +130,7 @@ public class DateData {
 		}
 	}
 
-	public DateData() {// 기본 생성자..
+	public DateData() {// 湲곕낯 �깮�꽦�옄..
 	}
 
 	public List<String> getDayOff() {
